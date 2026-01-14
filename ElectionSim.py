@@ -1,10 +1,11 @@
 import csv
 import random as r
+import math as m
 
 print("Election Shifter")
 print("+ numbers for Democrats, - numbers for Republicans")
 data = {}
-type = input("0 for Simulator, 1 for Shifter: ")
+type = input("0 for Simulator, 1 for Shifter, 2 for Tipping Point: ")
 filename = input("Filename (csv file only): ")
 
 
@@ -31,7 +32,7 @@ while True:
                     if trail_total > (len(data) - trail_total):
                         wins += 1
                 print(f'average: {total / trails}, wins: (D: {wins}, R: {trails - wins})')
-                type = input("Again: ")
+                type = input("Again? ")
         case "1":
             demA, demB, totalA, totalB = 0, 0, 0, 0
             expected = lambda n: min(max((1 + 10* n) / 2, 0), 1)
@@ -58,7 +59,12 @@ while True:
                 if data[d]['Flipped']:
                     print(f"{d}: {data[d]['Margin']:{'.2%'}}")
                 data[d]['Flipped'] = False
-            type = input("Again: ")
+            type = input("Again? ")
+        case "2":
+            sd = sorted(data.values(), key=lambda n: n['Margin'])
+            half = len(data) // 2
+            print(f'Tipping Point Seat: {sd[half]}')
+            type = input("Again? ")
         case _:
-            print("Incorrect Input")
+            print("End")
             break
